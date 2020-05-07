@@ -42,9 +42,10 @@ class FarmProduce(models.Model):
 
 class Order(models.Model):
     STATE_CHOICE = (('0', '未付款'), ('1', '待发货'), ('2', '发货中'), ('3', '交易成功'), ('4', '退货中'), ('5', '退货成功'))
-    name = models.CharField(max_length=32)
     orderNumber = models.IntegerField(unique=True, primary_key=True)
+    createDate = models.DateField(verbose_name='创建日期', null=True)
+    name = models.CharField(max_length=32)
     price = models.IntegerField(verbose_name='订单价格')
     state = models.CharField(choices=STATE_CHOICE, max_length=1, verbose_name='订单状态')
     user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='客户')
-    # sales = models.ForeignKey('Sales', on_delete=models.CASCADE, verbose_name='销售')
+

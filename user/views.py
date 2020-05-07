@@ -6,8 +6,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from user.models import User, FarmProduce, FarmCategory
-from user.serializers import ListUserSerializer, UserSerializer, FarmProduceSerializer, FarmCategorySerializer
+from user.models import User, FarmProduce, FarmCategory, Order
+from user.serializers import ListUserSerializer, UserSerializer, FarmProduceSerializer, FarmCategorySerializer, \
+    OrderSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -54,4 +55,10 @@ class FarmCategoryViewSet(viewsets.ModelViewSet):
 class FarmProduceViewSet(viewsets.ModelViewSet):
     queryset = FarmProduce.objects.all()
     serializer_class = FarmProduceSerializer
+    permission_classes = []
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
     permission_classes = []

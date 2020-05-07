@@ -31,6 +31,7 @@ class FarmCategorySerializer(serializers.ModelSerializer):
 
 
 class FarmProduceSerializer(serializers.ModelSerializer):
+    # unitname = serializers.CharField(source='unit__display')
 
     class Meta:
         model = FarmProduce

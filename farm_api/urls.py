@@ -24,6 +24,7 @@ router = DefaultRouter()
 router.register(r'user', user.UserViewSet, basename='user')
 router.register(r'category', user.FarmCategoryViewSet, basename='category')
 router.register(r'produce', user.FarmProduceViewSet, basename='produce')
+router.register(r'order', user.OrderViewSet, basename='order')
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
