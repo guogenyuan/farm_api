@@ -173,3 +173,4 @@ CORS_ALLOW_HEADERS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ALLOWED_HOSTS = ['*']
+STATIC_URL = '/static/'
