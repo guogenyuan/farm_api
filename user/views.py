@@ -1,10 +1,11 @@
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
 from user.models import User, FarmProduce, FarmCategory, Order
 from user.serializers import ListUserSerializer, UserSerializer, FarmProduceSerializer, FarmCategorySerializer, \
@@ -17,7 +18,6 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     permission_classes = []
     filterset_fields = ['role']
-
     # http_method_names = ['head', 'option', 'get', 'post', 'patch']
 
     def get_serializer_class(self):
@@ -38,10 +38,13 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(data={'code': 1001, 'data': '用户不存在'})
         user = authenticate(username=_username, password=_password)
         login(request, user)
-        return Response(data={'code': 200, 'data': "登录成功"})
+        # 创建token
+        token, created = Token.objects.get_or_create(user=user)
+        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key})
 
-    @action(methods=['POST'], detail=False, permission_classes=[])
+    @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated])
     def logout(self, request):
+        Token.objects.get(user=request.user).delete()
         logout(request)
         return Response(data={'code': 200, 'data': "注销成功"})
 

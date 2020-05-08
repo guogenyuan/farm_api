@@ -16,24 +16,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 
-from user import views as user
-
-router = DefaultRouter()
-router.register(r'user', user.UserViewSet, basename='user')
-router.register(r'category', user.FarmCategoryViewSet, basename='category')
-router.register(r'produce', user.FarmProduceViewSet, basename='produce')
-router.register(r'order', user.OrderViewSet, basename='order')
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    # 创建ＡＰＩ文档
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path(r'', include('user.urls')),
     # url(r'^api-token-auth/', views.obtain_auth_token)
 ]
 
-urlpatterns += router.urls
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -24,7 +24,7 @@ SECRET_KEY = 'i&j60zgjcmt^+v!%13#ci7g_o!c1(t6s#w-@(yl@k9!sj8(#3g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -37,16 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # drf
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
-    # 请求头
-    'corsheaders',
     'user',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -82,8 +80,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'farm',
         'USER': 'root',
-        'PASSWORD': '800907ggy',
-        'HOST': '47.98.153.78',
+        # 'PASSWORD': '800907ggy',
+        # 'HOST': '47.98.153.78',
+        'PASSWORD': '12345678',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -117,7 +117,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -129,48 +129,15 @@ AUTH_USER_MODEL = 'user.User'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        # 'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
+    "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser", ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
 }
-# 跨域增加忽略
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
-APPEND_SLASH = False
-# CORS_ORIGIN_WHITELIST = (
-#     '*'
-# )
-
-CORS_ALLOW_METHODS = (
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-    'VIEW',
-)
-
-CORS_ALLOW_HEADERS = (
-    'XMLHttpRequest',
-    'X_FILENAME',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'Pragma',
-)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-ALLOWED_HOSTS = ['*']
-STATIC_URL = '/static/'
