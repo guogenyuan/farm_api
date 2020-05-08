@@ -18,6 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     permission_classes = []
     filterset_fields = ['role']
+
     # http_method_names = ['head', 'option', 'get', 'post', 'patch']
 
     def get_serializer_class(self):
@@ -37,10 +38,11 @@ class UserViewSet(viewsets.ModelViewSet):
         if not _user.exists():
             return Response(data={'code': 1001, 'data': '用户不存在'})
         user = authenticate(username=_username, password=_password)
-        login(request, user)
+        # login(request, user)
         # 创建token
         token, created = Token.objects.get_or_create(user=user)
-        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key})
+        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key},
+                        headers={'Authorization': f"Token {token.key}"})
 
     @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated])
     def logout(self, request):
