@@ -14,13 +14,6 @@ class User(AbstractUser):
     address = models.TextField(null=True)
     email = models.EmailField(null=True)
     role = models.CharField(choices=ROLE_CHOICE, max_length=1, default="0")
-    # sales = models.ForeignKey('Sales', on_delete=models.CASCADE, null=True)
-
-
-# class Sales(models.Model):
-#     RANK_CHOICE = (("0", "销售员"), ("1", "销售经理"))
-#     name = models.CharField(max_length=32)
-#     rank = models.CharField(choices=RANK_CHOICE, default='0', max_length=1, verbose_name='职级')
 
 
 class FarmCategory(models.Model):
