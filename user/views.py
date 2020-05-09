@@ -42,7 +42,8 @@ class UserViewSet(viewsets.ModelViewSet):
         _password = request.data['password']
         if User.objects.filter(username=_username).exists():
             return Response(data={'code': 1001, 'data': '用户已存在'})
-        return super().create(request, *args, **kwargs)
+        super().create(request, *args, **kwargs)
+        return Response(data={'code': 200, 'data': '注册成功'})
 
     @action(methods=['POST'], detail=False, permission_classes=[])
     def login(self, request):
