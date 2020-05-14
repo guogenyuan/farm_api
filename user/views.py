@@ -7,9 +7,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
-from user.models import User, FarmProduce, FarmCategory, Order
+from user.models import User, Produce, Category, Order, ShoppingCart
 from user.serializers import ListUserSerializer, UserSerializer, FarmProduceSerializer, FarmCategorySerializer, \
-    OrderSerializer, UserRegisterSerializer, OrderListSerializer
+    OrderSerializer, UserRegisterSerializer, OrderListSerializer, ShoppingCartSerializer
 from user.utils import IsNotAdminsUser
 
 
@@ -56,7 +56,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = authenticate(username=_username, password=_password)
         # 创建token
         token, created = Token.objects.get_or_create(user=user)
-        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key, 'user': UserSerializer(user).data},
+        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key},
                         headers={'Authorization': f"Token {token.key}"})
 
     @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated])
@@ -64,34 +64,55 @@ class UserViewSet(viewsets.ModelViewSet):
         Token.objects.get(user=request.user).delete()
         return Response(data={'code': 200, 'data': "注销成功"})
 
+    @action(methods=["GET"], detail=False, permission_classes=[IsAuthenticated])
+    def token_user(self, request):
+        user = User.objects.get(id=request.user.id)
+        return Response(data={'code': 200, 'data': UserSerializer(user).data})
+
 
 class FarmCategoryViewSet(viewsets.ModelViewSet):
-    queryset = FarmCategory.objects.all()
+    queryset = Category.objects.all()
     serializer_class = FarmCategorySerializer
-    permission_classes = []
+
+    def get_permissions(self):
+        if self.action == 'list':
+            return []
+        else:
+            return [IsAdminUser()]
 
 
 class FarmProduceViewSet(viewsets.ModelViewSet):
-    queryset = FarmProduce.objects.all()
+    queryset = Produce.objects.all()
     serializer_class = FarmProduceSerializer
-    permission_classes = []
+
+    def get_permissions(self):
+        if self.action == 'list':
+            return []
+        else:
+            return [IsAdminUser()]
 
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = []
 
     def get_serializer_class(self):
         _serializer_class = self.serializer_class
         if self.action == "list":
             _serializer_class = OrderListSerializer
         else:
-            _serializer_class = UserSerializer
+            _serializer_class = OrderSerializer
         return _serializer_class
 
-    # def get_permissions(self):
-    #     if self.action == 'create':
-    #         return [IsNotAdminsUser()]
-    #     else:
-    #         return [IsAuthenticated]
+    def get_permissions(self):
+        if self.action == 'create':
+            return [IsNotAdminsUser()]
+        else:
+            return [IsAuthenticated()]
+
+
+class ShoppingCartViewSet(viewsets.ModelViewSet):
+    queryset = ShoppingCart.objects.all()
+    serializer_class = ShoppingCartSerializer
+    permission_classes = [IsAuthenticated]
+

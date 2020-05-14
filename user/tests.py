@@ -1,3 +1,5 @@
+import random
+
 from django.urls import reverse, path, include
 from rest_framework import status
 from rest_framework.test import APITestCase, APILiveServerTestCase

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from user.models import User, FarmProduce, FarmCategory, Order
+from user.models import User, Produce, Category, Order, ShoppingCart
 
 
 class ListUserSerializer(serializers.ModelSerializer):
@@ -29,13 +29,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class FarmCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = FarmCategory
+        model = Category
         fields = '__all__'
 
 
 class FarmProduceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FarmProduce
+        model = Produce
         fields = '__all__'
 
 
@@ -50,3 +50,8 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+
+class ShoppingCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShoppingCart
+        fields = '__all__'
