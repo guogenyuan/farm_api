@@ -56,7 +56,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = authenticate(username=_username, password=_password)
         # 创建token
         token, created = Token.objects.get_or_create(user=user)
-        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key},
+        return Response(data={'code': 200, 'data': "登录成功", 'token': token.key, 'user': UserSerializer(user).data},
                         headers={'Authorization': f"Token {token.key}"})
 
     @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated])
