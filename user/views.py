@@ -9,7 +9,7 @@ from rest_framework.authtoken.models import Token
 
 from user.models import User, Produce, Category, Order, ShoppingCart
 from user.serializers import ListUserSerializer, UserSerializer, FarmProduceSerializer, FarmCategorySerializer, \
-    OrderSerializer, UserRegisterSerializer, OrderListSerializer, ShoppingCartSerializer
+    OrderSerializer, UserRegisterSerializer, OrderListSerializer, ShoppingCartSerializer, ShoppingCartListSerializer
 from user.utils import IsNotAdminsUser
 
 
@@ -115,4 +115,12 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
     queryset = ShoppingCart.objects.all()
     serializer_class = ShoppingCartSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        _serializer_class = super().get_serializer_class()
+        if self.action == 'list':
+            _serializer_class = ShoppingCartListSerializer
+        else:
+            _serializer_class = ShoppingCartSerializer
+        return _serializer_class
 

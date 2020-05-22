@@ -41,7 +41,7 @@ class Order(models.Model):
     createDate = models.DateTimeField(verbose_name='创建日期', auto_now=True)
     name = models.CharField(max_length=32)
     price = models.IntegerField(verbose_name='订单价格')
-    state = models.CharField(choices=STATE_CHOICE, max_length=1, verbose_name='订单状态')
+    state = models.CharField(choices=STATE_CHOICE, default='1', max_length=1, verbose_name='订单状态')
     user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='客户')
 
 

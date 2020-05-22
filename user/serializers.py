@@ -40,18 +40,33 @@ class FarmProduceSerializer(serializers.ModelSerializer):
 
 
 class OrderListSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+
     class Meta:
         model = Order
-        fields = ['orderNumber', 'createDate', 'name', 'price', 'state']
+        fields = ['orderNumber', 'createDate', 'name', 'price', 'state', 'username']
 
 
 class OrderSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Order
         fields = '__all__'
+
+
+class ShoppingCartListSerializer(serializers.ModelSerializer):
+    produceName = serializers.CharField(source='produce.name')
+    producePrice = serializers.CharField(source='produce.price')
+    produceNumber = serializers.IntegerField(source='produce.numbers')
+    produceUnit = serializers.CharField(source='produce.unit')
+
+    class Meta:
+        model = ShoppingCart
+        fields = ['produceName', 'producePrice', 'produceNumber', 'numbers', 'produceUnit']
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingCart
         fields = '__all__'
+
