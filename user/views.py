@@ -95,6 +95,8 @@ class FarmProduceViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
 
     def get_serializer_class(self):
         _serializer_class = self.serializer_class
@@ -115,6 +117,8 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
     queryset = ShoppingCart.objects.all()
     serializer_class = ShoppingCartSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
 
     def get_serializer_class(self):
         _serializer_class = super().get_serializer_class()
