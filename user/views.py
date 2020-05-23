@@ -122,4 +122,3 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
         else:
             _serializer_class = ShoppingCartSerializer
         return _serializer_class
-
