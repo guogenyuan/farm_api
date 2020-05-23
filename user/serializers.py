@@ -53,6 +53,14 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+    def create(self, validated_data):
+        order = super(OrderSerializer, self).create(validated_data=validated_data)
+        numbers = validated_data['numbers']
+        produce = Produce.objects.get(id=order.produce.id)
+        produce.numbers -= numbers
+        produce.save()
+        return order
+
 
 class ShoppingCartListSerializer(serializers.ModelSerializer):
     produceName = serializers.CharField(source='produce.name')

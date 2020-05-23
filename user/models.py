@@ -40,8 +40,10 @@ class Order(models.Model):
     orderNumber = models.CharField(default=numberID, max_length=10, unique=True)
     createDate = models.DateTimeField(verbose_name='创建日期', auto_now=True)
     name = models.CharField(max_length=32)
+    numbers = models.IntegerField()
     price = models.IntegerField(verbose_name='订单价格')
     state = models.CharField(choices=STATE_CHOICE, default='1', max_length=1, verbose_name='订单状态')
+    produce = models.ForeignKey('Produce', on_delete=models.CASCADE, verbose_name='产品')
     user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='客户')
 
 
