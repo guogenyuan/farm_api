@@ -34,7 +34,7 @@ class Produce(models.Model):
 
 class Order(models.Model):
     STATE_CHOICE = (('0', '未付款'), ('1', '待发货'), ('2', '发货中'), ('3', '交易成功'), ('4', '退货中'), ('5', '退货成功'))
-    number_string = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    number_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     numberID = ''.join(random.sample(number_string, 10))
 
     orderNumber = models.CharField(default=numberID, max_length=10, unique=True)
