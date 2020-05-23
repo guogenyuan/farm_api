@@ -95,6 +95,7 @@ class FarmProduceViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user']
 
@@ -105,12 +106,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         else:
             _serializer_class = OrderSerializer
         return _serializer_class
-
-    def get_permissions(self):
-        if self.action == 'create':
-            return [IsNotAdminsUser()]
-        else:
-            return [IsAuthenticated()]
 
 
 class ShoppingCartViewSet(viewsets.ModelViewSet):
