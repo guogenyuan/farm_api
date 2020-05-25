@@ -70,7 +70,7 @@ class ShoppingCartListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShoppingCart
-        fields = ['produceName', 'producePrice', 'produceNumber', 'numbers', 'produceUnit', 'user']
+        fields = ['id', 'produceName', 'producePrice', 'produceNumber', 'numbers', 'produceUnit', 'user']
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
